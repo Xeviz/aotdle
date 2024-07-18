@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Depends
-from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Annotated
 from sqlalchemy.orm import Session
 from config import engine, SessionLocal
@@ -8,6 +8,18 @@ import schemas
 
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
+
+requests_origins = [
+    "http://localhost:3000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=requests_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_db():
     db = SessionLocal()
@@ -93,7 +105,7 @@ def read_ranks(skip: int = 0, limit: int = None, db: Session = Depends(get_db)):
     ranks = db.query(models.Rank).offset(skip).limit(limit).all()
     return ranks
 
-@app.get("/ranks/{ranks_id}", response_model=schemas.Rank)
+@app.get("/ranks/{rank_id}", response_model=schemas.Rank)
 def read_rank(rank_id: int, db: Session = Depends(get_db)):
     rank = db.query(models.Rank).filter(models.Rank.id == rank_id).first()
     if rank is None:
