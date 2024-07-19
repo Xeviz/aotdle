@@ -220,3 +220,24 @@ def read_person(person_id: int, db: Session = Depends(get_db)):
     if person is None:
         raise HTTPException(status_code=404, detail="Person not found")
     return person
+
+
+@app.get("/persons_credentials/")
+def read_persons_credentials(db: Session = Depends(get_db)):
+    persons = db.query(models.Person).all()
+    persons_credentials = []
+    for person in persons:
+        gender = db.query(models.Gender).filter(models.Gender.id == person.gender).first()
+        rank = db.query(models.Rank).filter(models.Rank.id == person.rank).first()
+        debut_season = db.query(models.Season).filter(models.Season.id == person.debut_season).first()
+        fraction = db.query(models.Fraction).filter(models.Fraction.id == person.fraction).first()
+        persons_credentials.append({
+            "id": person.id,
+            "name": person.name,
+            "origins": person.origins,
+            "gender": gender.gender,
+            "rank": rank.rank,
+            "debut_season": debut_season.season,
+            "fraction": fraction.fraction,
+        })
+    return persons_credentials

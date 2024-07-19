@@ -4,8 +4,8 @@ import { styled } from "@mui/system";
 import { Box } from "@mui/material";
 
 const PictureBox = styled(Box)({
-  width: "64px",
-  height: "64px",
+  width: "76px",
+  height: "76px",
   background: "linear-gradient(to bottom, grey, blue)",
 });
 

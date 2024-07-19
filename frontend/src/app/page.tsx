@@ -2,13 +2,13 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import fetchPersons from "../../functions/FetchPersons";
-import fetchPersonInfo from "../../functions/FetchPersonInfo";
-import PictureTile from "../../components/PictureTile";
-import InfoTile from "../../components/InfoTile";
 import { Box } from "@mui/material";
-import GuessingRow from "../../components/GuessingRow";
+import GuessingRow from "../../components/classic/GuessingRow";
+import GuessingInfoRow from "../../components/classic/GuessingInfoRow";
+import GuessingPrompter from "../../components/classic/GuessingPrompter";
+import ClassicModeWindow from "../../components/classic/ClassicModeWindow";
 
-interface FetchedPerson {
+interface Person {
   id: number;
   name: string;
   gender: string;
@@ -21,7 +21,7 @@ interface FetchedPerson {
 const Home: React.FC = () => {
   const [possibleGuesses, setPossibleGuesses] = useState([]);
   const [usedGuesses, setUsedGuesses] = useState([]);
-  const [person, setPerson] = useState<FetchedPerson | null>(null);
+  const [correctGuess, setCorrectGuess] = useState<Person | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,22 +37,20 @@ const Home: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const setCorrect = async () => {
       try {
-        const data = await fetchPersonInfo(possibleGuesses[0]);
-        setPerson(data);
-        console.log(data);
+        console.log(possibleGuesses[0]);
+        setCorrectGuess(possibleGuesses[0]);
       } catch (error) {
         console.error("Error fetching person info:", error);
       }
     };
 
-    fetchData();
+    setCorrect();
   }, [possibleGuesses]);
 
   return (
     <Box
-      display="flex"
       sx={{
         width: "100%",
         height: "100vh",
@@ -61,8 +59,14 @@ const Home: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
-      {person && <GuessingRow person={person} correctPerson={person} />}
-      xd
+      <ClassicModeWindow
+        possibleGuesses={possibleGuesses}
+        usedGuesses={usedGuesses}
+        correctGuess={correctGuess}
+      ></ClassicModeWindow>
+      {correctGuess && (
+        <GuessingRow person={correctGuess} correctPerson={correctGuess} />
+      )}
     </Box>
   );
 };
