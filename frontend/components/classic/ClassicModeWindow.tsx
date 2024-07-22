@@ -10,7 +10,6 @@ import fetchPersons from "../../functions/FetchPersons";
 
 const BoxWrapper = styled(Box)({
   margin: "auto",
-  paddingTop: "20vh",
   width: "50%",
   alignItems: "center",
 });
@@ -88,10 +87,13 @@ const ClassicModeWindow: React.FC = () => {
         setPossibleGuesses(
           possibleGuesses.filter((posGuess) => posGuess.name !== inputValue)
         );
-        console.log("sukces");
         return;
       }
     });
+  };
+
+  const onVictory = async () => {
+    console.log("victory");
   };
 
   return (
@@ -105,7 +107,8 @@ const ClassicModeWindow: React.FC = () => {
       <GuessingInfoRow></GuessingInfoRow>
       {usedGuesses.map((guess, index) => (
         <GuessingRow
-          key={index}
+          key={guess.id}
+          onVictory={onVictory}
           person={guess}
           comparison={
             comparisons[index] || {

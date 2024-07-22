@@ -1,22 +1,7 @@
 "use client";
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import fetchPersons from "../../functions/FetchPersons";
 import { Box, Button } from "@mui/material";
-import GuessingRow from "../../components/classic/GuessingRow";
-import GuessingInfoRow from "../../components/classic/GuessingInfoRow";
-import GuessingPrompter from "../../components/classic/GuessingPrompter";
 import ClassicModeWindow from "../../components/classic/ClassicModeWindow";
-
-interface Person {
-  id: number;
-  name: string;
-  gender: string;
-  debut_season: string;
-  fraction: string;
-  rank: string;
-  origins: string;
-}
+import NavBar from "../../components/NavBar";
 
 const Home: React.FC = () => {
   return (
@@ -29,6 +14,7 @@ const Home: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
+      <NavBar></NavBar>
       <ClassicModeWindow />
     </Box>
   );
