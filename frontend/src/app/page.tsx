@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import fetchPersons from "../../functions/FetchPersons";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import GuessingRow from "../../components/classic/GuessingRow";
 import GuessingInfoRow from "../../components/classic/GuessingInfoRow";
 import GuessingPrompter from "../../components/classic/GuessingPrompter";
@@ -19,36 +19,6 @@ interface Person {
 }
 
 const Home: React.FC = () => {
-  const [possibleGuesses, setPossibleGuesses] = useState([]);
-  const [usedGuesses, setUsedGuesses] = useState([]);
-  const [correctGuess, setCorrectGuess] = useState<Person | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchPersons();
-        setPossibleGuesses(data);
-      } catch (error) {
-        console.error("Error fetching persons:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const setCorrect = async () => {
-      try {
-        console.log(possibleGuesses[0]);
-        setCorrectGuess(possibleGuesses[0]);
-      } catch (error) {
-        console.error("Error fetching person info:", error);
-      }
-    };
-
-    setCorrect();
-  }, [possibleGuesses]);
-
   return (
     <Box
       sx={{
@@ -59,14 +29,7 @@ const Home: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
-      <ClassicModeWindow
-        possibleGuesses={possibleGuesses}
-        usedGuesses={usedGuesses}
-        correctGuess={correctGuess}
-      ></ClassicModeWindow>
-      {correctGuess && (
-        <GuessingRow person={correctGuess} correctPerson={correctGuess} />
-      )}
+      <ClassicModeWindow />
     </Box>
   );
 };

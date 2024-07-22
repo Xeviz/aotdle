@@ -76,11 +76,13 @@ interface Person {
 
 interface GuessingPrompterProps {
   onInputChange: (value: string) => void;
+  onSubmit: () => void;
   possibleGuesses: Person[];
 }
 
 const GuessingPrompter: React.FC<GuessingPrompterProps> = ({
   onInputChange,
+  onSubmit,
   possibleGuesses,
 }) => {
   const [textFieldValue, setTextFieldValue] = useState<string>("");
@@ -91,7 +93,7 @@ const GuessingPrompter: React.FC<GuessingPrompterProps> = ({
   };
 
   const handleButtonClick = () => {
-    onInputChange(textFieldValue);
+    onSubmit();
   };
 
   const filteredGuesses =
@@ -107,6 +109,7 @@ const GuessingPrompter: React.FC<GuessingPrompterProps> = ({
           options={filteredGuesses}
           value={textFieldValue}
           onInputChange={handleInputChange}
+          onSubmit={handleButtonClick}
           renderInput={(params) => (
             <PromptTextField {...params} variant="outlined" />
           )}

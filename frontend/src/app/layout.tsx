@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Changa } from "next/font/google";
 import "./globals.css";
+
+const changa = Changa({
+  weight: ["500", "700"],
+  subsets: ["latin"],
+  variable: "--font-changa",
+});
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={changa.className}>{children}</body>
     </html>
   );
 }

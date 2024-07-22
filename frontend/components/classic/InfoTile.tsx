@@ -16,35 +16,37 @@ const BorderTile = styled(Box)({
   justifyContent: "center",
   alignItems: "center",
   backgroundImage: "linear-gradient(to bottom, brown, black)",
-  marginLeft: "2px",
+  marginLeft: "10px",
 });
 
-const ContainerTile = styled(Box)<{ correct: boolean; partially: boolean }>(
-  ({ correct, partially }) => ({
-    width: "72px",
-    height: "72px",
-    backgroundImage: correct
-      ? "radial-gradient(#00FF00, #33FF33, #99FF99)"
-      : partially
-        ? "radial-gradient(#FFFF00, #FFFF33, #FFFF99)"
-        : "radial-gradient(#FF0000, #FF3333, #FF7777)",
-    alignContent: "center",
-    textAlign: "center",
-    fontSize: "12px",
-    margin: "auto",
-  })
-);
+const ContainerTile = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "correct" && prop !== "partially",
+})<{ correct: boolean; partially: boolean }>(({ correct, partially }) => ({
+  width: "72px",
+  height: "72px",
+  backgroundImage: correct
+    ? "radial-gradient(#00FF00, #33FF33, #99FF99)"
+    : partially
+      ? "radial-gradient(#FFFF00, #FFFF33, #FFFF99)"
+      : "radial-gradient(#FF0000, #FF3333, #FF7777)",
+  alignContent: "center",
+  textAlign: "center",
+  fontSize: "12px",
+  margin: "auto",
+}));
 
-const InfoTile: React.FC<InfoProps> = (infoprops: InfoProps) => {
+const InfoTile: React.FC<InfoProps> = ({
+  isCorrect,
+  isPartiallyCorrect,
+  content,
+}) => {
   return (
     <BorderTile>
-      <ContainerTile
-        correct={infoprops.isCorrect}
-        partially={infoprops.isPartiallyCorrect}
-      >
-        {infoprops.content}
+      <ContainerTile correct={isCorrect} partially={isPartiallyCorrect}>
+        {content}
       </ContainerTile>
     </BorderTile>
   );
 };
+
 export default InfoTile;

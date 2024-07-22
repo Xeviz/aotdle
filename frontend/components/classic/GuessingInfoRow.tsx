@@ -11,7 +11,8 @@ const BorderTile = styled(Box)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  marginLeft: "2px",
+  marginLeft: "5px",
+  marginRight: "5px",
   textShadow: "2px 2px 4px #000000",
   color: "#ffffff",
 });
@@ -31,14 +32,13 @@ const ContainerTile = styled(Box)({
 const ContainerBox = styled(Box)({
   display: "flex",
   position: "relative",
-  width: "50%",
-  margin: "auto",
+  marginTop: "30px",
 });
 
 const GuessingInfoRow: React.FC = () => {
   return (
     <ContainerBox>
-      <Box display={"flex"}>
+      <Box display={"flex"} margin={"auto"}>
         <BorderTile>
           <ContainerTile>Character</ContainerTile>
         </BorderTile>

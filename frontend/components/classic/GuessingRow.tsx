@@ -15,41 +15,57 @@ interface Person {
   origins: string;
 }
 
-interface GuessingRowProps {
-  person: Person;
-  correctPerson: Person;
+interface Comparison {
+  gender: boolean[];
+  debut_season: boolean[];
+  fraction: boolean[];
+  rank: boolean[];
+  origins: boolean[];
 }
 
-const GuessingRow: React.FC<GuessingRowProps> = ({ person, correctPerson }) => {
+interface GuessingRowProps {
+  person: Person;
+  comparison: Comparison;
+}
+
+const ContainerBox = styled(Box)({
+  display: "flex",
+  position: "relative",
+  marginTop: "10px",
+});
+
+const GuessingRow: React.FC<GuessingRowProps> = ({ person, comparison }) => {
   return (
-    <Box display={"flex"}>
-      <PictureTile></PictureTile>
-      <InfoTile
-        isCorrect={person.gender === correctPerson.gender}
-        isPartiallyCorrect={person.gender === correctPerson.gender}
-        content={person.gender}
-      ></InfoTile>
-      <InfoTile
-        isCorrect={person.debut_season === correctPerson.debut_season}
-        isPartiallyCorrect={person.debut_season === correctPerson.debut_season}
-        content={person.debut_season}
-      ></InfoTile>
-      <InfoTile
-        isCorrect={person.fraction === correctPerson.fraction}
-        isPartiallyCorrect={person.fraction === correctPerson.fraction}
-        content={person.fraction}
-      ></InfoTile>
-      <InfoTile
-        isCorrect={person.rank === correctPerson.rank}
-        isPartiallyCorrect={person.rank === correctPerson.rank}
-        content={person.rank}
-      ></InfoTile>
-      <InfoTile
-        isCorrect={person.origins === correctPerson.origins}
-        isPartiallyCorrect={person.origins === correctPerson.origins}
-        content={person.origins}
-      ></InfoTile>
-    </Box>
+    <ContainerBox>
+      <Box display={"flex"} margin={"auto"}>
+        <PictureTile></PictureTile>
+        <InfoTile
+          isCorrect={comparison.gender[0]}
+          isPartiallyCorrect={comparison.gender[1]}
+          content={person.gender}
+        ></InfoTile>
+        <InfoTile
+          isCorrect={comparison.debut_season[0]}
+          isPartiallyCorrect={comparison.debut_season[1]}
+          content={person.debut_season}
+        ></InfoTile>
+        <InfoTile
+          isCorrect={comparison.fraction[0]}
+          isPartiallyCorrect={comparison.fraction[1]}
+          content={person.fraction}
+        ></InfoTile>
+        <InfoTile
+          isCorrect={comparison.rank[0]}
+          isPartiallyCorrect={comparison.rank[1]}
+          content={person.rank}
+        ></InfoTile>
+        <InfoTile
+          isCorrect={comparison.origins[0]}
+          isPartiallyCorrect={comparison.origins[1]}
+          content={person.origins}
+        ></InfoTile>
+      </Box>
+    </ContainerBox>
   );
 };
 export default GuessingRow;
