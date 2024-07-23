@@ -98,7 +98,11 @@ const GuessingPrompter: React.FC<GuessingPrompterProps> = ({
 
   const filteredGuesses =
     textFieldValue.length > 0
-      ? possibleGuesses.map((option) => option.name)
+      ? possibleGuesses
+          .map((option) => option.name)
+          .filter((name) =>
+            name.toLowerCase().startsWith(textFieldValue.toLowerCase())
+          )
       : [];
 
   return (

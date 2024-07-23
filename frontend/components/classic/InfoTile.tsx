@@ -15,8 +15,9 @@ const BorderTile = styled(Box)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  backgroundImage: "linear-gradient(to bottom, brown, black)",
+  backgroundImage: "linear-gradient(to bottom, #aaaaaa, #000000)",
   marginLeft: "10px",
+  boxShadow: "2px 2px 4px #000000",
 });
 
 const ContainerTile = styled(Box, {

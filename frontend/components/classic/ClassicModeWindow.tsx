@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState, useRef } from "react";
 import { styled } from "@mui/system";
 import { Box, Button, Typography } from "@mui/material";
 import GuessingPrompter from "./GuessingPrompter";
@@ -7,11 +7,14 @@ import GuessingInfoRow from "./GuessingInfoRow";
 import GuessingRow from "./GuessingRow";
 import comparePersons from "../../functions/ComparePersons";
 import fetchPersons from "../../functions/FetchPersons";
+import WinConfirmation from "./WinConfirmation";
+import fetchRandomPerson from "../../functions/FetchRandomPerson";
 
 const BoxWrapper = styled(Box)({
   margin: "auto",
   width: "50%",
   alignItems: "center",
+  paddingBottom: "120px",
 });
 
 const TextWrapper = styled(Box)({
@@ -46,6 +49,7 @@ const ClassicModeWindow: React.FC = () => {
   const [usedGuesses, setUsedGuesses] = useState<Person[]>([]);
   const [possibleGuesses, setPossibleGuesses] = useState<Person[]>([]);
   const [correctGuess, setCorrectGuess] = useState<Person>();
+  const [win, setWin] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,8 +67,11 @@ const ClassicModeWindow: React.FC = () => {
   useEffect(() => {
     const setCorrect = async () => {
       try {
-        console.log(possibleGuesses[0]);
-        setCorrectGuess(possibleGuesses[0]);
+        const randomGuess = await fetchRandomPerson();
+        if (randomGuess) {
+          setCorrectGuess(randomGuess);
+        }
+        console.log(randomGuess);
       } catch (error) {
         console.error("Error fetching person info:", error);
       }
@@ -93,7 +100,12 @@ const ClassicModeWindow: React.FC = () => {
   };
 
   const onVictory = async () => {
-    console.log("victory");
+    setWin(true);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -121,6 +133,7 @@ const ClassicModeWindow: React.FC = () => {
           }
         />
       ))}
+      {win && correctGuess && <WinConfirmation name={correctGuess.name} />}
     </BoxWrapper>
   );
 };

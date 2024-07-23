@@ -75,7 +75,7 @@ const GuessingRow: React.FC<GuessingRowProps> = ({
     <ContainerBox>
       <Box display={"flex"} margin={"auto"}>
         <TileDelayer visible={visible} transitionDelay={0}>
-          <PictureTile></PictureTile>
+          <PictureTile name={person.name}></PictureTile>
         </TileDelayer>
 
         <TileDelayer visible={visible} transitionDelay={1}>
