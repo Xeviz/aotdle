@@ -2,6 +2,7 @@
 import { Box, Button } from "@mui/material";
 import ClassicModeWindow from "../../components/classic/ClassicModeWindow";
 import QuoteModeWindow from "../../components/quote/QuoteModeWindow";
+import ImageModeWindow from "../../components/image/ImageModeWindow";
 import NavBar from "../../components/NavBar";
 
 const Home: React.FC = () => {
@@ -18,7 +19,7 @@ const Home: React.FC = () => {
       }}
     >
       <NavBar></NavBar>
-      <QuoteModeWindow />
+      <ImageModeWindow />
     </Box>
   );
 };
