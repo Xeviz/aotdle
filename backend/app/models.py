@@ -52,3 +52,10 @@ class Quote(Base):
     id = Column(Integer, primary_key=True, index=True)
     quote = Column(String, index=True, unique=True)
     person_id = Column(Integer, ForeignKey("persons.id"), nullable=False)
+
+class ImageAddress(Base):
+    __tablename__ = 'image_addresses'
+
+    id = Column(Integer, primary_key=True, index=True)
+    person_id = Column(Integer, ForeignKey("persons.id"), nullable=False)
+    image_id = Column(Integer, nullable=False)

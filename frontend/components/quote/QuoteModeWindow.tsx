@@ -5,8 +5,9 @@ import { Box, Button, Typography } from "@mui/material";
 import GuessingPrompter from "../GuessingPrompter";
 import comparePersons from "../../functions/ComparePersons";
 import fetchPersons from "../../functions/FetchPersons";
-import WinConfirmation from "../quote/WinConfirmation";
-import fetchRandomPerson from "../../functions/FetchRandomPerson";
+import WinConfirmation from "../WinConfirmation";
+import GuessTile from "./GuessTile";
+import fetchRandomQuote from "../../functions/FetchRandomQuote";
 
 const BoxWrapper = styled(Box)({
   margin: "auto",
@@ -15,12 +16,44 @@ const BoxWrapper = styled(Box)({
   paddingBottom: "120px",
 });
 
+const BorderTile = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  margin: "auto",
+  height: "200px",
+  width: "406px",
+  backgroundImage:
+    "radial-gradient(ellipse at top, #AAAAFF, transparent), radial-gradient(ellipse at bottom, #AAAAFF, transparent);",
+  borderRadius: "8px",
+  marginBottom: "20px",
+  boxSizing: "border-box",
+});
+
+const ContentTile = styled(Box)({
+  margin: "auto",
+  height: "calc(100% - 6px)",
+  width: "400px",
+  backgroundImage: "radial-gradient(#222222, #444444)",
+  borderRadius: "8px",
+  boxSizing: "border-box",
+});
+
 const TextWrapper = styled(Box)({
+  paddingTop: "5px",
   textAlign: "center",
-  fontSize: "1.1vw",
+  fontSize: "0.8vw",
   textShadow: "1px 1px 2px #000000",
   color: "#ffffff",
-  marginBottom: "30px",
+});
+
+const QuoteWrapper = styled(Box)({
+  textAlign: "center",
+  fontSize: "1.1vw",
+  textShadow: "3px 5px 5px #000000",
+  color: "#ffffff",
+  margin: "auto",
+  width: "95%",
 });
 
 interface Person {
@@ -31,14 +64,6 @@ interface Person {
   fraction: string;
   rank: string;
   origins: string;
-}
-
-interface Comparison {
-  gender: boolean[];
-  debut_season: boolean[];
-  fraction: boolean[];
-  rank: boolean[];
-  origins: boolean[];
 }
 
 const QuoteModeWindow: React.FC = () => {
@@ -65,9 +90,10 @@ const QuoteModeWindow: React.FC = () => {
   useEffect(() => {
     const setCorrect = async () => {
       try {
-        const randomGuess = await fetchRandomPerson();
+        const randomGuess = await fetchRandomQuote();
         if (randomGuess) {
-          setCorrectGuess(randomGuess);
+          setCorrectGuess(randomGuess[1]);
+          setQuote(randomGuess[0]);
         }
         console.log(randomGuess);
       } catch (error) {
@@ -83,10 +109,10 @@ const QuoteModeWindow: React.FC = () => {
   };
 
   const onSubmit = async () => {
+    console.log(correctGuess);
     console.log(inputValue);
     possibleGuesses.forEach((posGuess) => {
       if (posGuess.name === inputValue && correctGuess) {
-        const comparison = comparePersons(posGuess, correctGuess);
         setUsedGuesses((prevUsedGuesses) => [posGuess, ...prevUsedGuesses]);
         setPossibleGuesses(
           possibleGuesses.filter((posGuess) => posGuess.name !== inputValue)
@@ -96,19 +122,48 @@ const QuoteModeWindow: React.FC = () => {
     });
   };
 
+  const onVictory = async () => {
+    setWin(true);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <BoxWrapper>
-      {!win && (
-        <div>
+      <BorderTile>
+        <ContentTile>
           <TextWrapper>{"Which character once said:"}</TextWrapper>
-          <TextWrapper>{"TBD " + quote}</TextWrapper>
-          <GuessingPrompter
-            onInputChange={handleInputChange}
-            onSubmit={onSubmit}
-            possibleGuesses={possibleGuesses}
-          ></GuessingPrompter>
-        </div>
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80%",
+            }}
+          >
+            <QuoteWrapper>{quote}</QuoteWrapper>
+          </Box>
+        </ContentTile>
+      </BorderTile>
+      {!win && (
+        <GuessingPrompter
+          onInputChange={handleInputChange}
+          onSubmit={onSubmit}
+          possibleGuesses={possibleGuesses}
+        ></GuessingPrompter>
       )}
+      {usedGuesses.map((guess) => (
+        <GuessTile
+          key={guess.id}
+          name={guess.name}
+          correct={correctGuess ? guess.id === correctGuess.id : false}
+          onVictory={onVictory}
+        ></GuessTile>
+      ))}
+      {win && correctGuess && <WinConfirmation name={correctGuess.name} />}
     </BoxWrapper>
   );
 };

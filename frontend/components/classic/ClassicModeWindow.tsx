@@ -7,7 +7,7 @@ import GuessingInfoRow from "./GuessingInfoRow";
 import GuessingRow from "./GuessingRow";
 import comparePersons from "../../functions/ComparePersons";
 import fetchPersons from "../../functions/FetchPersons";
-import WinConfirmation from "../quote/WinConfirmation";
+import WinConfirmation from "../WinConfirmation";
 import fetchRandomPerson from "../../functions/FetchRandomPerson";
 
 const BoxWrapper = styled(Box)({

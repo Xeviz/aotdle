@@ -272,3 +272,19 @@ def read_quote(quote_id: int, db: Session = Depends(get_db)):
     if quote is None:
         raise HTTPException(status_code=404, detail="Quote not found")
     return quote
+
+
+@app.post("/image_addresses/")
+def create_image_address(image_address: schemas.ImageAddressCreate, db: Session = Depends(get_db)):
+    db_image_address = models.ImageAddress(person_id=image_address.person_id, image_id=image_address.image_id)
+    db.add(db_image_address)
+    db.commit()
+    db.refresh(db_image_address)
+    return db_image_address
+
+@app.get("/image_addresses/{image_id}")
+def read_image_address(image_id: int, db: Session = Depends(get_db)):
+    image_address = db.query(models.ImageAddress).filter(models.ImageAddress.image_id == image_id).first()
+    if image_address is None:
+        raise HTTPException(status_code=404, detail="Quote not found")
+    return image_address

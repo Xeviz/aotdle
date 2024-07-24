@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
 import { Box, Button } from "@mui/material";
-import PictureTile from "../classic/PictureTile";
+import PictureTile from "./classic/PictureTile";
 
 const BorderWindow = styled(Box)({
-  width: "306px",
-  height: "316px",
+  width: "326px",
+  height: "356px",
   margin: "auto",
   marginTop: "20px",
   backgroundImage: "linear-gradient(to bottom, #ffffff, #cccccc)",
@@ -17,7 +17,7 @@ const BorderWindow = styled(Box)({
 });
 
 const ContentWindow = styled(Box)({
-  width: "300px",
+  width: "320px",
   height: "calc(100% - 6px)",
   margin: "auto",
   backgroundImage: "linear-gradient(to bottom, #55ff55, #004400)",

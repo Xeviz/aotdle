@@ -78,6 +78,18 @@ class Origin(OriginBase):
         from_attributes = True
 
 
+class ImageAddressBase(BaseModel):
+    person_id: int
+    image_id: int
+
+class ImageAddressCreate(ImageAddressBase):
+    pass
+
+class ImageAddress(ImageAddressBase):
+    id: int
+
+    class Config:
+        from_attributes = True
 class QuoteBase(BaseModel):
     quote: str
     person_id: int
