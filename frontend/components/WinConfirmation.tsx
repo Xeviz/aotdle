@@ -77,7 +77,10 @@ const ButtonBorder = styled(Box)({
   borderRadius: "8px",
 });
 
-const WinConfirmation: React.FC<{ name: string }> = ({ name }) => {
+const WinConfirmation: React.FC<{ name: string; nextGameMode: string }> = ({
+  name,
+  nextGameMode,
+}) => {
   return (
     <BorderWindow>
       <ContentWindow>
@@ -91,7 +94,9 @@ const WinConfirmation: React.FC<{ name: string }> = ({ name }) => {
         </ImageAndTextContainer>
         <TextWrapper>{"Play next gamemode:"}</TextWrapper>
         <ButtonBorder>
-          <GameModeButton>{"Quote"}</GameModeButton>
+          <GameModeButton href={"#" + nextGameMode}>
+            {nextGameMode}
+          </GameModeButton>
         </ButtonBorder>
         <TextWrapper>{"or come back tomorrow"}</TextWrapper>
       </ContentWindow>

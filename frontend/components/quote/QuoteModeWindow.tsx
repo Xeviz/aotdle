@@ -163,7 +163,9 @@ const QuoteModeWindow: React.FC = () => {
           onVictory={onVictory}
         ></GuessTile>
       ))}
-      {win && correctGuess && <WinConfirmation name={correctGuess.name} />}
+      {win && correctGuess && (
+        <WinConfirmation name={correctGuess.name} nextGameMode="image" />
+      )}
     </BoxWrapper>
   );
 };

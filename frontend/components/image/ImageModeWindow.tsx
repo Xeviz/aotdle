@@ -20,7 +20,7 @@ const BorderTile = styled(Box)({
   justifyContent: "center",
   alignItems: "center",
   margin: "auto",
-  height: "400px",
+  height: "420px",
   width: "606px",
   backgroundImage:
     "radial-gradient(ellipse at top, #AAAAFF, transparent), radial-gradient(ellipse at bottom, #AAAAFF, transparent);",
@@ -36,9 +36,17 @@ const ContentTile = styled(Box)({
   backgroundImage: "radial-gradient(#222222, #444444)",
   borderRadius: "8px",
   boxSizing: "border-box",
-  display: "flex",
   justifyContent: "center",
   alignItems: "center",
+});
+
+const TextWrapper = styled(Box)({
+  paddingTop: "5px",
+  textAlign: "center",
+  fontSize: "0.9vw",
+  textShadow: "2px 2px 4px #000000",
+  color: "#ffffff",
+  paddingBottom: "10px",
 });
 
 interface Person {
@@ -121,6 +129,9 @@ const ImageModeWindow: React.FC = () => {
     <BoxWrapper>
       <BorderTile>
         <ContentTile>
+          <TextWrapper>
+            {"Guess which character is on the snippet below:"}
+          </TextWrapper>
           <Box
             style={{
               width: "350px",
@@ -162,7 +173,9 @@ const ImageModeWindow: React.FC = () => {
           }}
         ></Box>
       )}
-      {win && correctGuess && <WinConfirmation name={correctGuess.name} />}
+      {win && correctGuess && (
+        <WinConfirmation name={correctGuess.name} nextGameMode="classic" />
+      )}
     </BoxWrapper>
   );
 };

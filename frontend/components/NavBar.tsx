@@ -73,27 +73,6 @@ const TextWrapper = styled(Box)({
   marginBottom: "10px",
 });
 
-const BorderTile = styled(Box)({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  margin: "auto",
-  height: "100px",
-  width: "284px",
-  backgroundImage:
-    "radial-gradient(ellipse at top, #AAAAFF, transparent), radial-gradient(ellipse at bottom, #AAAAFF, transparent);",
-  borderRadius: "8px",
-  marginBottom: "20px",
-});
-
-const ContentTile = styled(Box)({
-  margin: "auto",
-  height: "96px",
-  width: "276px",
-  backgroundImage: "radial-gradient(#222222, #444444)",
-  borderRadius: "8px",
-});
-
 const NavBar: React.FC = () => {
   return (
     <FullWidthContainer>
@@ -103,7 +82,7 @@ const NavBar: React.FC = () => {
       <TextWrapper>{"Gamemode:"}</TextWrapper>
       <ModePickersContainer>
         <ModePickerBorder>
-          <ModePicker>
+          <ModePicker href={"#classic"}>
             <QuestionMarkIcon
               style={{
                 fontSize: "220%",
@@ -115,7 +94,7 @@ const NavBar: React.FC = () => {
         </ModePickerBorder>
 
         <ModePickerBorder>
-          <ModePicker>
+          <ModePicker href={"#quote"}>
             <FormatQuoteIcon
               style={{
                 fontSize: "220%",
@@ -127,7 +106,7 @@ const NavBar: React.FC = () => {
         </ModePickerBorder>
 
         <ModePickerBorder>
-          <ModePicker>
+          <ModePicker href={"#image"}>
             <ImageIcon
               style={{
                 fontSize: "180%",

@@ -137,7 +137,9 @@ const ClassicModeWindow: React.FC = () => {
           }
         />
       ))}
-      {win && correctGuess && <WinConfirmation name={correctGuess.name} />}
+      {win && correctGuess && (
+        <WinConfirmation name={correctGuess.name} nextGameMode="quote" />
+      )}
     </BoxWrapper>
   );
 };
