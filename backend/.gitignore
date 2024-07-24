@@ -1,6 +1,7 @@
 .idea
 idea
 *.idea
+.env
 
 
 # Byte-compiled / optimized / DLL files

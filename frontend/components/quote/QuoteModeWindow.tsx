@@ -3,8 +3,6 @@ import React, { ReactNode, useEffect, useState, useRef } from "react";
 import { styled } from "@mui/system";
 import { Box, Button, Typography } from "@mui/material";
 import GuessingPrompter from "../GuessingPrompter";
-import GuessingInfoRow from "./GuessingInfoRow";
-import GuessingRow from "./GuessingRow";
 import comparePersons from "../../functions/ComparePersons";
 import fetchPersons from "../../functions/FetchPersons";
 import WinConfirmation from "../quote/WinConfirmation";
@@ -43,9 +41,9 @@ interface Comparison {
   origins: boolean[];
 }
 
-const ClassicModeWindow: React.FC = () => {
+const QuoteModeWindow: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
-  const [comparisons, setComparisons] = useState<Comparison[]>([]);
+  const [quote, setQuote] = useState<string>("");
   const [usedGuesses, setUsedGuesses] = useState<Person[]>([]);
   const [possibleGuesses, setPossibleGuesses] = useState<Person[]>([]);
   const [correctGuess, setCorrectGuess] = useState<Person>();
@@ -89,7 +87,6 @@ const ClassicModeWindow: React.FC = () => {
     possibleGuesses.forEach((posGuess) => {
       if (posGuess.name === inputValue && correctGuess) {
         const comparison = comparePersons(posGuess, correctGuess);
-        setComparisons((prevComparisons) => [comparison, ...prevComparisons]);
         setUsedGuesses((prevUsedGuesses) => [posGuess, ...prevUsedGuesses]);
         setPossibleGuesses(
           possibleGuesses.filter((posGuess) => posGuess.name !== inputValue)
@@ -99,20 +96,12 @@ const ClassicModeWindow: React.FC = () => {
     });
   };
 
-  const onVictory = async () => {
-    setWin(true);
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <BoxWrapper>
       {!win && (
         <div>
-          <TextWrapper>{"Guess today's Attack on Titan Character"}</TextWrapper>
+          <TextWrapper>{"Which character once said:"}</TextWrapper>
+          <TextWrapper>{"TBD " + quote}</TextWrapper>
           <GuessingPrompter
             onInputChange={handleInputChange}
             onSubmit={onSubmit}
@@ -120,25 +109,7 @@ const ClassicModeWindow: React.FC = () => {
           ></GuessingPrompter>
         </div>
       )}
-      <GuessingInfoRow></GuessingInfoRow>
-      {usedGuesses.map((guess, index) => (
-        <GuessingRow
-          key={guess.id}
-          onVictory={onVictory}
-          person={guess}
-          comparison={
-            comparisons[index] || {
-              gender: [false, false],
-              debut_season: [false, false],
-              fraction: [false, false],
-              rank: [false, false],
-              origins: [false, false],
-            }
-          }
-        />
-      ))}
-      {win && correctGuess && <WinConfirmation name={correctGuess.name} />}
     </BoxWrapper>
   );
 };
-export default ClassicModeWindow;
+export default QuoteModeWindow;

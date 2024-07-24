@@ -1,6 +1,7 @@
 "use client";
 import { Box, Button } from "@mui/material";
 import ClassicModeWindow from "../../components/classic/ClassicModeWindow";
+import QuoteModeWindow from "../../components/quote/QuoteModeWindow";
 import NavBar from "../../components/NavBar";
 
 const Home: React.FC = () => {
@@ -17,7 +18,7 @@ const Home: React.FC = () => {
       }}
     >
       <NavBar></NavBar>
-      <ClassicModeWindow />
+      <QuoteModeWindow />
     </Box>
   );
 };

@@ -66,7 +66,7 @@ const GuessingRow: React.FC<GuessingRowProps> = ({
     if (isVictory) {
       const timer = setTimeout(() => {
         onVictory();
-      }, 5500);
+      }, 5100);
       return () => clearTimeout(timer);
     }
   }, [comparison, onVictory]);

@@ -61,7 +61,7 @@ const ModePickersContainer = styled(Box)({
   background: "transparent",
   width: "250px",
   display: "flex",
-  paddingBottom: "50px",
+  paddingBottom: "30px",
   textAlign: "center",
 });
 

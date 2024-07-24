@@ -45,3 +45,10 @@ class Origin(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     origin = Column(String, index=True, unique=True)
+
+class Quote(Base):
+    __tablename__ = 'quotes'
+
+    id = Column(Integer, primary_key=True, index=True)
+    quote = Column(String, index=True, unique=True)
+    person_id = Column(Integer, ForeignKey("persons.id"), nullable=False)

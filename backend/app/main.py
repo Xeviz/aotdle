@@ -21,6 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 def get_db():
     db = SessionLocal()
     try:
@@ -40,6 +41,7 @@ def create_origin(origin: schemas.OriginCreate, db: Session = Depends(get_db)):
     db.refresh(db_origin)
     return db_origin
 
+
 @app.post("/multiple_origins/", response_model=List[schemas.Origin])
 def create_multiple_origins(origins: List[schemas.OriginCreate], db: Session = Depends(get_db)):
     db_origins = [models.Origin(origin=origin.origin) for origin in origins]
@@ -49,10 +51,12 @@ def create_multiple_origins(origins: List[schemas.OriginCreate], db: Session = D
         db.refresh(db_origin)
     return db_origins
 
+
 @app.get("/origins/", response_model=List[schemas.Origin])
 def read_origins(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     origins = db.query(models.Origin).offset(skip).limit(limit).all()
     return origins
+
 
 @app.get("/origins/{origin_id}", response_model=schemas.Origin)
 def read_origin(origin_id: int, db: Session = Depends(get_db)):
@@ -70,10 +74,12 @@ def create_gender(gender: schemas.GenderCreate, db: Session = Depends(get_db)):
     db.refresh(db_gender)
     return db_gender
 
+
 @app.get("/genders/", response_model=List[schemas.Gender])
 def read_genders(skip: int = 0, limit: int = None, db: Session = Depends(get_db)):
     genders = db.query(models.Gender).offset(skip).limit(limit).all()
     return genders
+
 
 @app.get("/genders/{gender_id}", response_model=schemas.Gender)
 def read_gender(gender_id: int, db: Session = Depends(get_db)):
@@ -91,6 +97,7 @@ def create_rank(rank: schemas.RankCreate, db: Session = Depends(get_db)):
     db.refresh(db_rank)
     return db_rank
 
+
 @app.post("/multiple_ranks/", response_model=List[schemas.Rank])
 def create_multiple_ranks(ranks: List[schemas.RankCreate], db: Session = Depends(get_db)):
     db_ranks = [models.Rank(rank=rank.rank) for rank in ranks]
@@ -100,10 +107,12 @@ def create_multiple_ranks(ranks: List[schemas.RankCreate], db: Session = Depends
         db.refresh(db_rank)
     return db_ranks
 
+
 @app.get("/ranks/", response_model=List[schemas.Rank])
 def read_ranks(skip: int = 0, limit: int = None, db: Session = Depends(get_db)):
     ranks = db.query(models.Rank).offset(skip).limit(limit).all()
     return ranks
+
 
 @app.get("/ranks/{rank_id}", response_model=schemas.Rank)
 def read_rank(rank_id: int, db: Session = Depends(get_db)):
@@ -121,6 +130,7 @@ def create_fraction(fraction: schemas.FractionCreate, db: Session = Depends(get_
     db.refresh(db_fraction)
     return db_fraction
 
+
 @app.post("/multiple_fractions/", response_model=List[schemas.Fraction])
 def create_multiple_fractions(fractions: List[schemas.FractionCreate], db: Session = Depends(get_db)):
     db_fractions = [models.Fraction(fraction=fraction.fraction) for fraction in fractions]
@@ -130,10 +140,12 @@ def create_multiple_fractions(fractions: List[schemas.FractionCreate], db: Sessi
         db.refresh(db_fraction)
     return db_fractions
 
+
 @app.get("/fractions/", response_model=List[schemas.Fraction])
 def read_fractions(skip: int = 0, limit: int = None, db: Session = Depends(get_db)):
     fractions = db.query(models.Fraction).offset(skip).limit(limit).all()
     return fractions
+
 
 @app.get("/fractions/{fraction_id}", response_model=schemas.Fraction)
 def read_fraction(fraction_id: int, db: Session = Depends(get_db)):
@@ -151,6 +163,7 @@ def create_season(season: schemas.SeasonCreate, db: Session = Depends(get_db)):
     db.refresh(db_season)
     return db_season
 
+
 @app.post("/multiple_seasons/", response_model=List[schemas.Season])
 def create_multiple_seasons(seasons: List[schemas.SeasonCreate], db: Session = Depends(get_db)):
     db_seasons = [models.Season(season=season.season, release_date=season.release_date) for season in seasons]
@@ -160,10 +173,12 @@ def create_multiple_seasons(seasons: List[schemas.SeasonCreate], db: Session = D
         db.refresh(db_season)
     return db_seasons
 
+
 @app.get("/seasons/", response_model=List[schemas.Season])
 def read_seasons(skip: int = 0, limit: int = None, db: Session = Depends(get_db)):
     seasons = db.query(models.Season).offset(skip).limit(limit).all()
     return seasons
+
 
 @app.get("/seasons/{season_id}", response_model=schemas.Season)
 def read_season(season_id: int, db: Session = Depends(get_db)):
@@ -174,8 +189,7 @@ def read_season(season_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/persons/", response_model=schemas.Person)
-def create_person(person: schemas.PersonCreate,  db: Session = Depends(get_db)):
-
+def create_person(person: schemas.PersonCreate, db: Session = Depends(get_db)):
     db_person = models.Person(
         name=person.name,
         gender=person.gender,
@@ -191,9 +205,9 @@ def create_person(person: schemas.PersonCreate,  db: Session = Depends(get_db)):
 
     return db_person
 
+
 @app.post("/multiple_persons/", response_model=List[schemas.Person])
 def create_multiple_persons(persons: List[schemas.PersonCreate], db: Session = Depends(get_db)):
-
     db_persons = [models.Person(
         name=person.name,
         gender=person.gender,
@@ -207,6 +221,7 @@ def create_multiple_persons(persons: List[schemas.PersonCreate], db: Session = D
     for db_person in db_persons:
         db.refresh(db_person)
     return db_persons
+
 
 @app.get("/persons/", response_model=List[schemas.Person])
 def read_persons(skip: int = 0, limit: int = None, db: Session = Depends(get_db)):
@@ -241,3 +256,19 @@ def read_persons_credentials(db: Session = Depends(get_db)):
             "fraction": fraction.fraction,
         })
     return persons_credentials
+
+
+@app.post("/quotes/")
+def create_quote(quote: schemas.QuoteCreate, db: Session = Depends(get_db)):
+    db_quote = models.Quote(quote=quote.quote, person_id=quote.person_id)
+    db.add(db_quote)
+    db.commit()
+    db.refresh(db_quote)
+    return db_quote
+
+@app.get("/quotes/{quote_id}")
+def read_quote(quote_id: int, db: Session = Depends(get_db)):
+    quote = db.query(models.Quote).filter(models.Quote.id == quote_id).first()
+    if quote is None:
+        raise HTTPException(status_code=404, detail="Quote not found")
+    return quote

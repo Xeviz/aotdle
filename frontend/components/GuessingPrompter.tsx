@@ -1,8 +1,13 @@
 "use client";
-import React from "react";
+import React, {
+  useImperativeHandle,
+  useRef,
+  forwardRef,
+  useState,
+} from "react";
 import { styled } from "@mui/system";
 import { Box, TextField, Button, Autocomplete } from "@mui/material";
-import { useState } from "react";
+import SendIcon from "@mui/icons-material/Send";
 
 const BorderTile = styled(Box)({
   display: "flex",
@@ -46,13 +51,13 @@ const PromptTextField = styled(TextField)({
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "transparent", // Ukrycie borderu w normalnym stanie
+      borderColor: "transparent",
     },
     "&:hover fieldset": {
-      borderColor: "transparent", // Ukrycie borderu przy najechaniu
+      borderColor: "transparent",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "transparent", // Ukrycie borderu przy fokusie
+      borderColor: "transparent",
     },
   },
 });
@@ -62,6 +67,12 @@ const ContainerBox = styled(Box)({
   position: "relative",
   width: "250px",
   margin: "auto",
+});
+
+const GradientSendIcon = styled(SendIcon)({
+  background: "linear-gradient(to bottom, #ffffff, #000000)",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
 });
 
 interface Person {
@@ -86,6 +97,7 @@ const GuessingPrompter: React.FC<GuessingPrompterProps> = ({
   possibleGuesses,
 }) => {
   const [textFieldValue, setTextFieldValue] = useState<string>("");
+  const inputRef = useRef();
 
   const handleInputChange = (event: React.SyntheticEvent, value: string) => {
     setTextFieldValue(value);
@@ -93,7 +105,12 @@ const GuessingPrompter: React.FC<GuessingPrompterProps> = ({
   };
 
   const handleButtonClick = () => {
+    clearPrompt();
     onSubmit();
+  };
+
+  const clearPrompt = () => {
+    setTextFieldValue("");
   };
 
   const filteredGuesses =
@@ -119,7 +136,16 @@ const GuessingPrompter: React.FC<GuessingPrompterProps> = ({
           )}
         />
       </BorderTile>
-      <SendButton onClick={handleButtonClick}></SendButton>
+      <SendButton onClick={handleButtonClick}>
+        <SendIcon
+          style={{
+            fontSize: "280%",
+            color: "#ffffff",
+            filter: "drop-shadow(2px 4px 4px #000000)",
+            marginLeft: "8px",
+          }}
+        ></SendIcon>
+      </SendButton>
     </ContainerBox>
   );
 };

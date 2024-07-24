@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
 import { Box, Button } from "@mui/material";
-import PictureTile from "./PictureTile";
+import PictureTile from "../classic/PictureTile";
 
 const BorderWindow = styled(Box)({
   width: "306px",
